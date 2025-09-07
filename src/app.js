@@ -14,7 +14,7 @@ const app = express();
 // 🔥 Allowed origins set karo
 const allowedOrigins = [
   "http://localhost:3000",                 // Local React dev ke liye
-  "https://<your-frontend>.netlify.app"   // Netlify deploy URL yaha daalo
+  "https://rentlisting.netlify.app/"   // Netlify deploy URL yaha daalo
 ];
 
 // CORS config
