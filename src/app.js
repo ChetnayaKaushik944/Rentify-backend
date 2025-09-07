@@ -12,7 +12,6 @@ const contactRoutes = require("./routes/contactRoutes");
 const app = express();
 
 // 🔥 Allowed origins set karo
-const cors = require("cors");
 
 const allowedOrigins = [
   "http://localhost:3000",             // local dev
