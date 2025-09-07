@@ -10,18 +10,36 @@ const tenantRoutes = require('./routes/tenantRoutes');
 const contactRoutes = require("./routes/contactRoutes");
 
 const app = express();
-app.use(cors());
-app.use(express.json());
 
+// 🔥 Allowed origins set karo
+const allowedOrigins = [
+  "http://localhost:3000",                 // Local React dev ke liye
+  "https://<your-frontend>.netlify.app"   // Netlify deploy URL yaha daalo
+];
+
+// CORS config
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS not allowed"));
+    }
+  },
+  credentials: true,
+}));
+
+app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
+// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/owner', ownerRoutes);
 app.use('/api/tenant', tenantRoutes);
 app.use("/api/contact", contactRoutes);
 
-
+// MongoDB connect
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.error(err));
