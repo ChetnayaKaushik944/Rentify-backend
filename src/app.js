@@ -12,22 +12,25 @@ const contactRoutes = require("./routes/contactRoutes");
 const app = express();
 
 // 🔥 Allowed origins set karo
+const cors = require("cors");
+
 const allowedOrigins = [
-  "http://localhost:3000",                 // Local React dev ke liye
-  "https://rentlisting.netlify.app/"   // Netlify deploy URL yaha daalo
+  "http://localhost:3000",             // local dev
+  "https://rentlisting.netlify.app"    // tera Netlify frontend
 ];
 
-// CORS config
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("CORS not allowed"));
+      callback(new Error("CORS not allowed for this origin: " + origin));
     }
   },
-  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
+
 
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
